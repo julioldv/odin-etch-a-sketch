@@ -4,14 +4,21 @@ const gridSizeBtn = document.querySelector("#gridSizeBtn");
 
 let size = 16;
 
-function handleInput(){
-    let input = Number(prompt("Enter a size for the size*size grid:"));
+function handleInput() {
+  let input = prompt("Enter a size for the size*size grid:");
+  if (input === null) {
+    return null;
+  }
 
-    if(input === null){
-        alert("Invalid input");
-        return null;
-    }
-    return input;
+  let gridSize = Number(input);
+  if (isNaN(gridSize) || gridSize < 1) {
+    alert("Invalid input");
+    return null;
+  } else if (gridSize > 100) {
+    alert("Input can't be greater than 100");
+    return 100;
+  }
+  return gridSize;
 }
 
 function drawGrid() {
@@ -31,12 +38,11 @@ function drawGrid() {
 drawGrid();
 
 gridSizeBtn.addEventListener("click", () => {
+  const newSize = handleInput();
+  if (newSize === null) return;
+
+  size = newSize;
   container.replaceChildren();
   size = handleInput();
-
-  if (size > 100) {
-    size = 100;
-  }
-
   drawGrid();
 });
